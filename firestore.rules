@@ -12,10 +12,15 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isSignedIn() && request.auth.token.email == 'nlhthinh95@gmail.com';
+      return isSignedIn() && (request.auth.token.email == 'nlhthinh95@gmail.com' || request.auth.uid == 'T6H3ICAmomMozRrGkMmIfw0NpHe2');
     }
 
     // --- Rules ---
+
+    // Connection test path
+    match /test/connection {
+      allow read: if true;
+    }
 
     match /stores/{storeId} {
       allow read: if true;

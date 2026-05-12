@@ -1,8 +1,6 @@
 import { Map, Edit2, ExternalLink } from 'lucide-react';
 import { Store, Category, Area } from '../types';
-import { motion, AnimatePresence } from 'motion/react';
 import ConfirmDeleteButton from './ConfirmDeleteButton';
-import MarqueeText from './MarqueeText';
 
 interface StoreListProps {
   user: any;
@@ -27,50 +25,34 @@ export default function StoreList({
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse table-fixed">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Tên cửa hàng</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Loại</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Khu vực</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Địa chỉ</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Bản đồ</th>
-              {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Thao tác</th>}
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[20%]">Tên cửa hàng</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[15%]">Loại</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[15%]">Khu vực</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[35%]">Địa chỉ</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center w-[10%]">Bản đồ</th>
+              {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right w-[5%]"></th>}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 relative">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {stores.length === 0 ? (
-                <motion.tr
-                  key="no-results"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+          <tbody className="divide-y divide-gray-100">
+            {stores.length === 0 ? (
+              <tr key="no-results">
+                <td colSpan={user ? 6 : 5} className="px-6 py-12 text-center text-gray-500 italic">
+                  Không tìm thấy món ngon nào...
+                </td>
+              </tr>
+            ) : (
+              stores.map((store) => (
+                <tr
+                  key={store.id}
+                  className="hover:bg-gray-50 group bg-white"
                 >
-                  <td colSpan={user ? 6 : 5} className="px-6 py-12 text-center text-gray-500 italic">
-                    Không tìm thấy món ngon nào...
-                  </td>
-                </motion.tr>
-              ) : (
-                stores.map((store) => (
-                  <motion.tr
-                    layout
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ 
-                      opacity: { duration: 0.2 },
-                      layout: { type: "spring", stiffness: 500, damping: 50, mass: 1 }
-                    }}
-                    key={store.id}
-                    className="hover:bg-gray-50 transition-colors group bg-white"
-                  >
-                    <td className="px-6 py-4 max-w-[200px]">
-                      <MarqueeText 
-                        text={store.name} 
-                        className="text-sm font-semibold text-gray-900" 
-                      />
+                    <td className="px-6 py-4 overflow-hidden">
+                      <div className="truncate text-sm font-semibold text-gray-900" title={store.name}>
+                        {store.name}
+                      </div>
                     </td>
     <td className="px-6 py-4">
       <div className="flex flex-wrap gap-1">
@@ -92,11 +74,10 @@ export default function StoreList({
                         {getAreaName(store.areaId)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 max-w-[250px]">
-                      <MarqueeText 
-                        text={store.address || 'Đang cập nhật...'} 
-                        className="text-sm text-gray-600" 
-                      />
+                    <td className="px-6 py-4 overflow-hidden">
+                      <div className="truncate text-sm text-gray-600" title={store.address || ''}>
+                        {store.address || 'Đang cập nhật...'}
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-center">
                       {store.mapLink ? (
@@ -104,7 +85,7 @@ export default function StoreList({
                           href={store.mapLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center justify-center p-2 rounded-full text-brand-red hover:bg-red-50 transition-all"
+                          className="inline-flex items-center justify-center p-2 rounded-full text-brand-red hover:bg-red-50"
                         >
                           <Map className="w-5 h-5" />
                         </a>
@@ -117,7 +98,7 @@ export default function StoreList({
                         <div className="flex justify-end space-x-2">
                           <button
                             onClick={() => onEdit(store)}
-                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
@@ -125,10 +106,9 @@ export default function StoreList({
                         </div>
                       </td>
                     )}
-                  </motion.tr>
+                  </tr>
                 ))
               )}
-            </AnimatePresence>
           </tbody>
         </table>
       </div>

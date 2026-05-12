@@ -71,7 +71,7 @@ export default function App() {
 
   // Data Listeners
   useEffect(() => {
-    const qStores = query(collection(db, 'stores'), orderBy('createdAt', 'desc'));
+    const qStores = query(collection(db, 'stores'), orderBy('name', 'asc'));
     const unsubscribeStores = onSnapshot(qStores, (snapshot) => {
       setStores(snapshot.docs.map(d => {
         const data = d.data();
@@ -318,18 +318,17 @@ export default function App() {
           />
 
           {/* Main Content */}
-          <motion.div layout className="flex-1 space-y-6">
-            <motion.div layout className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <motion.div layout>
+          <div className="flex-1 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
                 <h2 className="text-3xl font-black text-gray-900 serif-display">
                   Khám phá món ngon
                 </h2>
                 <p className="text-gray-500 mt-1">Danh sách tinh hoa ẩm thực Việt Nam</p>
-              </motion.div>
+              </div>
               
               {user && (
-                <motion.button
-                  layout
+                <button
                   onClick={() => {
                     setEditingStore(null);
                     setStoreModalOpen(true);
@@ -338,11 +337,11 @@ export default function App() {
                 >
                   <Plus className="w-5 h-5 mr-2" />
                   Thêm món mới
-                </motion.button>
+                </button>
               )}
-            </motion.div>
+            </div>
 
-            <motion.div layout className="min-h-[400px]">
+            <div className="min-h-[400px]">
               <StoreList
                 user={user}
                 stores={filteredStores}
@@ -354,8 +353,8 @@ export default function App() {
                 }}
                 onDelete={handleDeleteStore}
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </main>
 
