@@ -1,0 +1,115 @@
+{
+  "entities": {
+    "Store": {
+      "title": "Store",
+      "description": "Information about a food store/restaurant",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Store name, max 50 chars",
+          "maxLength": 50
+        },
+        "categoryIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "References to Category IDs"
+        },
+        "areaId": {
+          "type": "string",
+          "description": "Reference to Area ID"
+        },
+        "address": {
+          "type": "string",
+          "description": "Store address, max 100 chars",
+          "maxLength": 100
+        },
+        "mapLink": {
+          "type": "string",
+          "description": "Google Maps link"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creatorId": {
+          "type": "string",
+          "description": "UID of the creator"
+        }
+      },
+      "required": [
+        "name",
+        "categoryIds",
+        "areaId",
+        "address",
+        "creatorId"
+      ]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Food category/type",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Category name, max 30 chars",
+          "maxLength": 30
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Order position"
+        }
+      },
+      "required": [
+        "name",
+        "order"
+      ]
+    },
+    "Area": {
+      "title": "Area",
+      "description": "Regional area/location",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Area name, max 30 chars",
+          "maxLength": 30
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Order position"
+        }
+      },
+      "required": [
+        "name",
+        "order"
+      ]
+    }
+  },
+  "firestore": {
+    "stores": {
+      "schema": "Store",
+      "description": "Collection of food places"
+    },
+    "categories": {
+      "schema": "Category",
+      "description": "Collection of food types"
+    },
+    "areas": {
+      "schema": "Area",
+      "description": "Collection of regions"
+    }
+  }
+}
