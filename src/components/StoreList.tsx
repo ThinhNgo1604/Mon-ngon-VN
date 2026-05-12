@@ -35,7 +35,7 @@ export default function StoreList({
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Khu vực</th>
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Địa chỉ</th>
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Bản đồ</th>
-              {user && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Thao tác</th>}
+              {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Thao tác</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 relative">
@@ -112,7 +112,7 @@ export default function StoreList({
                         <span className="text-xs text-gray-400 italic">Chưa có link</span>
                       )}
                     </td>
-                    {user && (
+                    {user && user.email === 'nlhthinh95@gmail.com' && (
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end space-x-2">
                           <button

@@ -10,6 +10,7 @@ interface StoreModalProps {
   editData?: Store | null;
   categories: Category[];
   areas: Area[];
+  user: any;
 }
 
 export default function StoreModal({
@@ -19,7 +20,9 @@ export default function StoreModal({
   editData,
   categories,
   areas,
+  user,
 }: StoreModalProps) {
+  const isAdmin = user?.email === 'nlhthinh95@gmail.com';
   const [formData, setFormData] = useState<Partial<Store>>({
     name: '',
     address: '',
@@ -57,11 +60,28 @@ export default function StoreModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.address || !formData.categoryIds?.length || !formData.areaId) {
-      alert('Vui lòng điền đầy đủ các trường bắt buộc (phải chọn ít nhất 1 loại món)!');
+    
+    const isNameValid = !!formData.name;
+    const isAreaValid = !!formData.areaId;
+    const isCategoryValid = !isAdmin || !!formData.categoryIds?.length;
+    const isAddressValid = !isAdmin || !!formData.address;
+
+    if (!isNameValid || !isAreaValid || !isCategoryValid || !isAddressValid) {
+      if (!isNameValid) alert('Vui lòng nhập tên cửa hàng!');
+      else if (!isAreaValid) alert('Vui lòng chọn khu vực!');
+      else if (!isCategoryValid) alert('Vui lòng chọn ít nhất 1 loại món!');
+      else if (!isAddressValid) alert('Vui lòng nhập địa chỉ!');
       return;
     }
-    onSave(formData);
+    
+    // Set default values for hidden fields if non-admin
+    const finalData = {
+      ...formData,
+      address: formData.address || 'Đang cập nhật...',
+      categoryIds: formData.categoryIds?.length ? formData.categoryIds : [],
+    };
+    
+    onSave(finalData);
   };
 
   if (!isOpen) return null;
@@ -105,30 +125,32 @@ export default function StoreModal({
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
-                Loại món (Có thể chọn nhiều) <span className="text-brand-red">*</span>
-              </label>
-              <div className="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-2xl bg-gray-50/50">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => toggleCategory(cat.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${
-                      formData.categoryIds?.includes(cat.id)
-                        ? 'bg-brand-red text-white border-brand-red shadow-sm scale-105'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
-                {categories.length === 0 && (
-                  <p className="text-xs text-gray-400 italic">Chưa có loại món nào...</p>
-                )}
+            {isAdmin && (
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  Loại món (Có thể chọn nhiều) <span className="text-brand-red">*</span>
+                </label>
+                <div className="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-2xl bg-gray-50/50">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => toggleCategory(cat.id)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${
+                        formData.categoryIds?.includes(cat.id)
+                          ? 'bg-brand-red text-white border-brand-red shadow-sm scale-105'
+                          : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                  {categories.length === 0 && (
+                    <p className="text-xs text-gray-400 italic">Chưa có loại món nào...</p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
             
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">
@@ -148,38 +170,42 @@ export default function StoreModal({
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">
-              Địa chỉ (Tối đa 100 ký tự) <span className="text-brand-red">*</span>
-            </label>
-            <textarea
-              maxLength={100}
-              required
-              rows={2}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none transition-all"
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              placeholder="VD: 13 Lò Đúc, Phạm Đình Hổ, Hai Bà Trưng, Hà Nội"
-            />
-            <div className="flex justify-end mt-1">
-              <span className={`text-xs ${formData.address?.length === 100 ? 'text-red-500' : 'text-gray-400'}`}>
-                {formData.address?.length || 0}/100
-              </span>
+          {isAdmin && (
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">
+                Địa chỉ (Tối đa 100 ký tự) <span className="text-brand-red">*</span>
+              </label>
+              <textarea
+                maxLength={100}
+                required
+                rows={2}
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none transition-all"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                placeholder="VD: 13 Lò Đúc, Phạm Đình Hổ, Hai Bà Trưng, Hà Nội"
+              />
+              <div className="flex justify-end mt-1">
+                <span className={`text-xs ${formData.address?.length === 100 ? 'text-red-500' : 'text-gray-400'}`}>
+                  {formData.address?.length || 0}/100
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">
-              Link Google Maps (Chỉ hiện trong Admin)
-            </label>
-            <input
-              type="url"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none transition-all"
-              value={formData.mapLink}
-              onChange={(e) => setFormData({ ...formData, mapLink: e.target.value })}
-              placeholder="https://goo.gl/maps/..."
-            />
-          </div>
+          {isAdmin && (
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">
+                Link Google Maps (Chỉ hiện trong Admin)
+              </label>
+              <input
+                type="url"
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none transition-all"
+                value={formData.mapLink}
+                onChange={(e) => setFormData({ ...formData, mapLink: e.target.value })}
+                placeholder="https://goo.gl/maps/..."
+              />
+            </div>
+          )}
 
           <div className="pt-4 flex space-x-3">
             <button

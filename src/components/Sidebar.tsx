@@ -42,7 +42,7 @@ export default function Sidebar({
             <Tag className="w-5 h-5 mr-2 text-brand-red" />
             Loại món ăn
           </h2>
-          {user && (
+          {user && user.email === 'nlhthinh95@gmail.com' && (
             <button
               onClick={onAddCategory}
               className="p-1 hover:bg-red-50 text-brand-red rounded-full transition-colors bg-white border border-red-100"
@@ -86,7 +86,7 @@ export default function Sidebar({
             <MapPin className="w-5 h-5 mr-2 text-brand-red" />
             Khu vực
           </h2>
-          {user && (
+          {user && user.email === 'nlhthinh95@gmail.com' && (
             <button
               onClick={onAddArea}
               className="p-1 hover:bg-red-50 text-brand-red rounded-full transition-colors bg-white border border-red-100"

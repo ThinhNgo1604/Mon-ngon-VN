@@ -378,6 +378,7 @@ export default function App() {
         editData={editingStore}
         categories={categories}
         areas={areas}
+        user={user}
       />
 
       <SimpleModal
