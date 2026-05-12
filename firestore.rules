@@ -8,49 +8,18 @@ service cloud.firestore {
 
     // --- Helpers ---
     function isSignedIn() {
-      return request.auth != null && request.auth.token.email_verified == true;
-    }
-
-    function isValidId(id) {
-      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
-    }
-
-    function incoming() {
-      return request.resource.data;
-    }
-
-    function existing() {
-      return resource.data;
+      return request.auth != null;
     }
 
     function isAdmin() {
       return isSignedIn() && request.auth.token.email == 'nlhthinh95@gmail.com';
     }
 
-    // --- Entity Validations ---
-    function isValidStore(data) {
-      return data.name is string && data.name.size() <= 100
-        && (data.address == null || (data.address is string && data.address.size() <= 250))
-        && data.categoryIds is list
-        && data.areaId is string
-        && (data.creatorId == null || data.creatorId is string)
-        && (data.mapLink == null || data.mapLink is string)
-        && (data.categoryId == null || data.categoryId is string);
-    }
-
-    function isValidCategory(data) {
-      return data.name is string && data.name.size() <= 50;
-    }
-
-    function isValidArea(data) {
-      return data.name is string && data.name.size() <= 50;
-    }
-
     // --- Rules ---
 
     match /stores/{storeId} {
       allow read: if true;
-      allow create: if isSignedIn() && isValidStore(incoming());
+      allow create: if isSignedIn();
       allow update, delete: if isAdmin();
     }
 

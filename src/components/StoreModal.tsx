@@ -63,8 +63,8 @@ export default function StoreModal({
     
     const isNameValid = !!formData.name;
     const isAreaValid = !!formData.areaId;
-    const isCategoryValid = !isAdmin || !!formData.categoryIds?.length;
-    const isAddressValid = !isAdmin || !!formData.address;
+    const isCategoryValid = (isAdmin || !editData) ? !!formData.categoryIds?.length : true;
+    const isAddressValid = (isAdmin || !editData) ? !!formData.address : true;
 
     if (!isNameValid || !isAreaValid || !isCategoryValid || !isAddressValid) {
       if (!isNameValid) alert('Vui lòng nhập tên cửa hàng!');
@@ -74,11 +74,11 @@ export default function StoreModal({
       return;
     }
     
-    // Set default values for hidden fields if non-admin
+    // Final data preparation
     const finalData = {
       ...formData,
       address: formData.address || 'Đang cập nhật...',
-      categoryIds: formData.categoryIds?.length ? formData.categoryIds : [],
+      categoryIds: formData.categoryIds || [],
     };
     
     onSave(finalData);
@@ -125,7 +125,7 @@ export default function StoreModal({
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            {isAdmin && (
+            {(isAdmin || !editData) && (
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">
                   Loại món (Có thể chọn nhiều) <span className="text-brand-red">*</span>
@@ -170,7 +170,7 @@ export default function StoreModal({
             </div>
           </div>
 
-          {isAdmin && (
+          {(isAdmin || !editData) && (
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">
                 Địa chỉ (Tối đa 100 ký tự) <span className="text-brand-red">*</span>
@@ -192,7 +192,7 @@ export default function StoreModal({
             </div>
           )}
 
-          {isAdmin && (
+          {(isAdmin || !editData) && (
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">
                 Link Google Maps (Chỉ hiện trong Admin)
