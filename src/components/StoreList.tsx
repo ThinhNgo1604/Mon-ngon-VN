@@ -25,15 +25,15 @@ export default function StoreList({
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse table-fixed">
+        <table className="w-full text-left border-collapse min-w-max">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[20%]">Tên cửa hàng</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[15%]">Loại</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[15%]">Khu vực</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider w-[35%]">Địa chỉ</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center w-[10%]">Bản đồ</th>
-              {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right w-[5%]"></th>}
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Tên cửa hàng</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Loại</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Khu vực</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Địa chỉ</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Bản đồ</th>
+              {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right"></th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -49,12 +49,12 @@ export default function StoreList({
                   key={store.id}
                   className="hover:bg-gray-50 group bg-white"
                 >
-                    <td className="px-6 py-4 overflow-hidden">
-                      <div className="truncate text-sm font-semibold text-gray-900" title={store.name}>
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-semibold text-gray-900" title={store.name}>
                         {store.name}
                       </div>
                     </td>
-    <td className="px-6 py-4">
+    <td className="px-6 py-4 whitespace-nowrap">
       <div className="flex flex-wrap gap-1">
         {store.categoryIds.map((catId) => (
           <span 
@@ -69,13 +69,13 @@ export default function StoreList({
         )}
       </div>
     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {getAreaName(store.areaId)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 overflow-hidden">
-                      <div className="truncate text-sm text-gray-600" title={store.address || ''}>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-600">
                         {store.address || 'Đang cập nhật...'}
                       </div>
                     </td>
