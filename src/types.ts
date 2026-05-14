@@ -5,6 +5,7 @@ export interface Store {
   areaId: string;
   address: string;
   mapLink?: string;
+  isActive?: boolean;
   createdAt: any;
   updatedAt: any;
   creatorId: string;

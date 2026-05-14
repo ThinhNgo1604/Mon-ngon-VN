@@ -29,6 +29,7 @@ export default function StoreModal({
     categoryIds: [],
     areaId: '',
     mapLink: '',
+    isActive: true,
   });
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function StoreModal({
         categoryIds: [],
         areaId: '',
         mapLink: '',
+        isActive: true,
       });
     }
   }, [editData, isOpen]);
@@ -204,6 +206,36 @@ export default function StoreModal({
                 onChange={(e) => setFormData({ ...formData, mapLink: e.target.value })}
                 placeholder="https://goo.gl/maps/..."
               />
+            </div>
+          )}
+
+          {(isAdmin || !editData) && (
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+              <label className="text-sm font-bold text-gray-700">Tình trạng quán:</label>
+              <div className="flex bg-white p-1 rounded-lg border border-gray-200">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isActive: true })}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
+                    formData.isActive 
+                      ? 'bg-green-100 text-green-700 shadow-sm' 
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Đang hoạt động
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isActive: false })}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${
+                    formData.isActive === false
+                      ? 'bg-red-100 text-red-700 shadow-sm' 
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Ngừng kinh doanh
+                </button>
+              </div>
             </div>
           )}
 

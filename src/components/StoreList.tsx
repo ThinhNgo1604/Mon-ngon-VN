@@ -33,6 +33,7 @@ export default function StoreList({
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Khu vực</th>
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Địa chỉ</th>
               <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Bản đồ</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Tình trạng</th>
               {user && user.email === 'nlhthinh95@gmail.com' && <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right"></th>}
             </tr>
           </thead>
@@ -91,6 +92,17 @@ export default function StoreList({
                         </a>
                       ) : (
                         <span className="text-xs text-gray-400 italic">Chưa có link</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                      {store.isActive !== false ? (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black bg-green-50 text-green-700 border border-green-200">
+                          HOẠT ĐỘNG
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black bg-red-50 text-red-700 border border-red-200">
+                          ĐÃ NGHỈ
+                        </span>
                       )}
                     </td>
                     {user && user.email === 'nlhthinh95@gmail.com' && (

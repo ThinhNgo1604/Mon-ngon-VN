@@ -28,6 +28,10 @@
           "type": "string",
           "description": "Google Maps link"
         },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the store is still operating"
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
