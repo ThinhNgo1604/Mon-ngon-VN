@@ -34,7 +34,7 @@ export default function Sidebar({
   onDeleteCategory,
 }: SidebarProps) {
   return (
-    <aside className="w-full lg:w-64 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-8">
+    <aside className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
       {/* Categories */}
       <motion.div layout>
         <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-2">

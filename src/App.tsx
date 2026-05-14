@@ -287,9 +287,10 @@ export default function App() {
       <Header user={user} onSearch={setSearchQuery} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <Sidebar
+        <div className="flex flex-col gap-10">
+          {/* Filters (Sidebar) */}
+          <div className="w-full">
+            <Sidebar
             user={user}
             areas={areas}
             categories={categories}
@@ -316,9 +317,10 @@ export default function App() {
             onDeleteArea={handleDeleteArea}
             onDeleteCategory={handleDeleteCategory}
           />
+          </div>
 
           {/* Main Content */}
-          <div className="flex-1 space-y-6">
+          <div className="space-y-6 w-full">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h2 className="text-3xl font-black text-gray-900 serif-display">
